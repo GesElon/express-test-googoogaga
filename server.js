@@ -13,6 +13,6 @@ app.post('/chat', (req, res) => {
   console.log(req);
 })
 
-app.listen(5000, () => {
+app.listen(PORT, () => {
   console.log('Server running on port 5000...')
 })
