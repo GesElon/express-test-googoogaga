@@ -83,13 +83,34 @@ app.post('/chat', async (req, res) => {
   req.body.referer = 'http://localhost:5000';
 
   try {
-    const response = await axios.post(aiUrl, req.body, {
+    const response = await fetch(aiUrl, {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${apiKey}`
       },
-      responseType: 'stream'
-    });
+      body: JSON.stringify(req.body)
+    })
+
+    // Forward status + headers
+    res.status(response.status)
+    response.headers.forEach((value, key) => {
+      res.setHeader(key, value)
+    })
+
+    // IMPORTANT: stream the body
+    const reader = response.body.getReader()
+
+    res.setHeader('Connection', 'keep-alive')
+    res.setHeader('Cache-Control', 'no-cache')
+
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+      res.write(Buffer.from(value))
+    }
+
+    res.end()
     // const response = {
     //   data: {
     //     choices: [{
@@ -100,13 +121,6 @@ app.post('/chat', async (req, res) => {
     //     }]
     //   }
     // }
-
-    res.status(response.status)
-    Object.entries(response.headers).forEach(([k, v]) => {
-      res.setHeader(k, v)
-    })
-
-    response.data.pipe(res)
 
     // res.status(200);
     // console.log(response);
