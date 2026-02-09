@@ -1,0 +1,6 @@
+{
+  "ignore": [
+    "responses-log.json",
+    "log.json"
+  ]
+}
