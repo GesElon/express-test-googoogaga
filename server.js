@@ -87,7 +87,8 @@ app.post('/chat', async (req, res) => {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${apiKey}`
-      }
+      },
+      responseType: 'stream'
     });
     // const response = {
     //   data: {
@@ -100,9 +101,17 @@ app.post('/chat', async (req, res) => {
     //   }
     // }
 
-    console.log(response);
-    logApiResponse(response);
-    res.json(response.data);
+    res.status(response.status)
+    Object.entries(response.headers).forEach(([k, v]) => {
+      res.setHeader(k, v)
+    })
+
+    response.data.pipe(res)
+
+    // res.status(200);
+    // console.log(response);
+    // logApiResponse(response);
+    // res.json(response.data);
   } catch(err) {
     console.log(err)
   }
