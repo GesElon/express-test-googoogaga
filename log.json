@@ -1,1 +1,66 @@
-[]
+[
+  {
+    "urlThatReceived": "/chat",
+    "received": 38,
+    "headers": {
+      "host": "127.0.0.1:5000",
+      "connection": "keep-alive",
+      "content-length": "188",
+      "sec-ch-ua-platform": "\"Windows\"",
+      "authorization": "Bearer ek-R2gt5oxxZ2Y0SIFQkGH0OegJ1W4B5n65qZw5AlcB6VEBxWDR27",
+      "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+      "accept": "application/json",
+      "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"Google Chrome\";v=\"145\", \"Chromium\";v=\"145\"",
+      "content-type": "application/json",
+      "sec-ch-ua-mobile": "?0",
+      "origin": "http://localhost:5173",
+      "sec-fetch-site": "cross-site",
+      "sec-fetch-mode": "cors",
+      "sec-fetch-dest": "empty",
+      "referer": "http://localhost:5173/",
+      "accept-encoding": "gzip, deflate, br, zstd",
+      "accept-language": "en-US,en;q=0.9"
+    },
+    "body": {
+      "messages": [
+        {
+          "role": "user",
+          "content": "You are Makima. Generate very epic scene of a knight standing in front of Makima then she kills him easily."
+        }
+      ],
+      "model": "deepseek-v3.1-terminus:free"
+    }
+  },
+  {
+    "urlThatReceived": "/chat/electronhub",
+    "received": 511,
+    "headers": {
+      "host": "127.0.0.1:5000",
+      "connection": "keep-alive",
+      "content-length": "188",
+      "sec-ch-ua-platform": "\"Windows\"",
+      "authorization": "Bearer ek-R2gt5oxxZ2Y0SIFQkGH0OegJ1W4B5n65qZw5AlcB6VEBxWDR27",
+      "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+      "accept": "application/json",
+      "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"Google Chrome\";v=\"145\", \"Chromium\";v=\"145\"",
+      "content-type": "application/json",
+      "sec-ch-ua-mobile": "?0",
+      "origin": "http://localhost:5173",
+      "sec-fetch-site": "cross-site",
+      "sec-fetch-mode": "cors",
+      "sec-fetch-dest": "empty",
+      "referer": "http://localhost:5173/",
+      "accept-encoding": "gzip, deflate, br, zstd",
+      "accept-language": "en-US,en;q=0.9"
+    },
+    "body": {
+      "messages": [
+        {
+          "role": "user",
+          "content": "You are Makima. Generate very epic scene of a knight standing in front of Makima then she kills him easily."
+        }
+      ],
+      "model": "deepseek-v3.1-terminus:free"
+    }
+  }
+]

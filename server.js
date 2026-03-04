@@ -48,15 +48,15 @@ function logApiResponse(res) {
 const logJsonPath = path.join(__dirname, 'log.json');
 const resLogJsonPath = path.join(__dirname, 'responses-log.json');
 
-const aiUrl = process.env.API_URL;
-const apiKey = process.env.API_KEY;
+const electronHubUrl = 'https://api.electronhub.ai/v1/chat/completions'
+const vercelUrl = 'https://ai-gateway.vercel.sh/v1/chat/completions'
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-  res.send('Hello! I"m cool!');
+  res.send('Hello V2! I"m cool!');
 });
 
 app.get('/log', (req, res) => {
@@ -75,19 +75,79 @@ app.get('/res-log', (req, res) => {
   }
 });
 
-app.post('/chat', async (req, res) => {
+app.post('/chat/electronhub', async (req, res) => {
   console.log('received');
-  logRequest(req, '/chat');
+  logRequest(req, '/chat/electronhub');
 
   req.body.origin = 'http://localhost:5000';
   req.body.referer = 'http://localhost:5000';
+
+  const aiUrl = electronHubUrl;
 
   try {
     const response = await fetch(aiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
+        'Authorization': req.headers.authorization || ''
+      },
+      body: JSON.stringify(req.body)
+    })
+
+    // Forward status + headers
+    res.status(response.status)
+    response.headers.forEach((value, key) => {
+      res.setHeader(key, value)
+    })
+
+    // IMPORTANT: stream the body
+    const reader = response.body.getReader()
+
+    res.setHeader('Connection', 'keep-alive')
+    res.setHeader('Cache-Control', 'no-cache')
+
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+      res.write(Buffer.from(value))
+    }
+
+    res.end()
+    // const response = {
+    //   data: {
+    //     choices: [{
+    //       message: {
+    //         role: 'noob',
+    //         content: 'hello'
+    //       }
+    //     }]
+    //   }
+    // }
+
+    // res.status(200);
+    // console.log(response);
+    // logApiResponse(response);
+    // res.json(response.data);
+  } catch(err) {
+    console.log(err)
+  }
+})
+
+app.post('/chat/vercel', async (req, res) => {
+  console.log('received');
+  logRequest(req, '/chat/vercel');
+
+  req.body.origin = 'http://localhost:5000';
+  req.body.referer = 'http://localhost:5000';
+
+  const aiUrl = vercelUrl;
+
+  try {
+    const response = await fetch(aiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': req.headers.authorization || ''
       },
       body: JSON.stringify(req.body)
     })
